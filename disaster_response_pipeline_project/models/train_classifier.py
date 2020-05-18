@@ -12,7 +12,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.multioutput import MultiOutputClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report
 nltk.download(['punkt','stopwords','wordnet'])
 
@@ -43,7 +43,10 @@ def build_model():
     ('tfidf', TfidfTransformer()),
     ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
-    return pipeline   
+    parameters = {'clf__estimator__n_estimators': [100,200],
+                  'clf__estimator__criterion': ['gini', 'entropy']}
+    cv = GridSearchCV(pipeline, parameters)
+    return cv   
 
 def evaluate_model(model, X_test, Y_test, category_names):
     y_pred = model.predict(X_test)
@@ -65,7 +68,9 @@ def main():
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
-        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.7)
+        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, 
+                                                            test_size=0.7,
+                                                            random_state=10)
         
         print('Building model...')
         model = build_model()

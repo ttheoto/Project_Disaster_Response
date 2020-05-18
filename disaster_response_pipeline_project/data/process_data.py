@@ -29,6 +29,8 @@ def clean_data(df):
     df = df.drop(columns=['categories'])
     # concatenate the original dataframe with the new `categories` dataframe
     df = pd.concat([df, categories], axis=1)
+    # remove wrong values from related column
+    df.loc[df['related']==2, 'related'] = 1
     # drop duplicates
     df = df.drop_duplicates()
     return df
