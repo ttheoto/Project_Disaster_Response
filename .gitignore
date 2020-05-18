@@ -2,3 +2,4 @@
 .ipynb_checkpoints/ETL Pipeline Preparation-checkpoint.ipynb
 .ipynb_checkpoints/ML Pipeline Preparation-checkpoint.ipynb
 finalized_model.pkl
+disaster_response_pipeline_project/models/classifier.pkl
