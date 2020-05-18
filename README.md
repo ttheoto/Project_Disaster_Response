@@ -28,7 +28,7 @@ TBD
 
 ## Results<a name="results"></a>
 
-![Percentages](percentages.jpg)
+![Percentages](percentages.JPG)
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
