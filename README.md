@@ -11,9 +11,9 @@ This project consists of a disaster response web-app. It is part of the Udacity'
 ## Installation <a name="installation"></a>
 
 The code should run using any Python versions 3.*.. The following libraries are required:
-* [Plotly](https://plotly.com/)
-* [Flask](https://flask.palletsprojects.com/en/1.1.x/)
-* [Pandas](https://pandas.pydata.org/)
+* [plotly](https://plotly.com/)
+* [flask](https://flask.palletsprojects.com/en/1.1.x/)
+* [pandas](https://pandas.pydata.org/)
 * [nltk](nltk.org)
 * [sklearn](https://scikit-learn.org/stable/)
 * [sqlalchemy](https://www.sqlalchemy.org/)
@@ -28,7 +28,7 @@ TBD
 
 ## Results<a name="results"></a>
 
-TBD
+![Percentages](percentages.JPG)
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
