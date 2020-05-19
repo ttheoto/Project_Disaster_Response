@@ -81,7 +81,7 @@ Even though the Machine Learning Model has a good accuracy (94.1%), its results 
 
 ![f1score](images/f1score.png)
 
-There is also indication of mislabeling. For instance, there were roughly 1300 messages where the word "water" is present, but it is not labeled as water-relevant. As a consequence, the model may not react well to new data. For instance, typing in a simple sentence such as "I am thristy" in the webapp does not return the expected output.
+There is also indication of mislabeling. For instance, there were roughly 1300 messages where the word "water" is present, but it is not labeled as water-relevant. As a consequence, the model may not react well to new data. For instance, typing in a simple sentence such as "I am thirsty" in the webapp does not return the expected output.
 
 Some [approaches](https://towardsdatascience.com/handling-imbalanced-datasets-in-machine-learning-7a0e84220f28) could improve the model, such as over/undersampling, or relabeling/recollecting data. Hopefully, I will have time to dig into these solutions in the future.
 
