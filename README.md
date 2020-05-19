@@ -64,4 +64,5 @@ Some [approaches](https://towardsdatascience.com/handling-imbalanced-datasets-in
 
 Must give credit to Appen for the disaster datasets. You can find them [here](https://appen.com/datasets/combined-disaster-response-data/).
 
+Udacity's Data Science Nanodegree provided the Flask Web App Template. You can find more information [here](https://www.udacity.com/course/data-scientist-nanodegree--nd025).
 
