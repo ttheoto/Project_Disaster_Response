@@ -35,7 +35,7 @@ The relevant data is found under the `disaster_response_pipeline_project` folder
 
 `data` 
 
-    * `disaster_messages.csv` - Dataset containing roughly 26,000 messages drawn from events including an earthquake in Haiti in 2010, an earthquake in Chile in 2010, floods in Pakistan in 2010, super-storm Sandy in the U.S.A. in 2012, and news articles spanning a large number of years and 100s of different disasters. Messages are written in English and in their original language. Furthermore, the dataset includes the type of the messag ("genre"): direct, news or social.
+>>> `disaster_messages.csv` - Dataset containing roughly 26,000 messages drawn from events including an earthquake in Haiti in 2010, an earthquake in Chile in 2010, floods in Pakistan in 2010, super-storm Sandy in the U.S.A. in 2012, and news articles spanning a large number of years and 100s of different disasters. Messages are written in English and in their original language. Furthermore, the dataset includes the type of the messag ("genre"): direct, news or social.
     
     * `disaster_categories.csv` - The previous data has been encoded with 36 different categories related to disaster response.
     
