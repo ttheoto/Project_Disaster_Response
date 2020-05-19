@@ -52,7 +52,7 @@ https://towardsdatascience.com/multi-class-text-classification-model-comparison-
 The exploration of the dataset revealed its imbalance (change to chart with percentages). More than half of the categories have comparatively small (<5% of the messages) representation in the dataset. One category (child_alone) did not have any example sentence.
 So, even though the first Machine Learning Model had a good accuracy, its results were rather "naive". It could not assign simple sentences (e.g."I need water!") to the right category.   
 
-![Percentages](percentages.JPG)
+![Percentages](message_dist.png)
 
 In order 
 
