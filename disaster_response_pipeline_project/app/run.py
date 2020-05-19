@@ -5,6 +5,7 @@ import pickle
 
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 
 from flask import Flask
 from flask import render_template, request, jsonify
@@ -16,15 +17,19 @@ from sqlalchemy import create_engine
 app = Flask(__name__)
 
 def tokenize(text):
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
-
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
-    return clean_tokens
+    
+    # normalize and tokenize
+    tokens = word_tokenize(text.lower())
+    # remove stop words
+    tokens = [w for w in tokens if w not in stopwords.words("english")]
+    # lemmatize nouns
+    tokens = [WordNetLemmatizer().lemmatize(w) for w in tokens]
+    # lemmatize verbs
+    tokens = [WordNetLemmatizer().lemmatize(w, pos = 'v') for w in tokens]
+    # remove trailing space
+    tokens = list(map(str.strip, tokens))
+    
+    return tokens
 
 # load data
 engine = create_engine('sqlite:///../data/DisasterResponse.db')
