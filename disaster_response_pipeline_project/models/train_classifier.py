@@ -3,13 +3,14 @@ import sys
 import pandas as pd
 import nltk
 import pickle
+import time
 
 from sqlalchemy import create_engine
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import SGDClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -38,15 +39,14 @@ def tokenize(text):
     return tokens
 
 def build_model():
-    pipeline = Pipeline([
-    ('vect', CountVectorizer(tokenizer=tokenize)),
-    ('tfidf', TfidfTransformer()),
-    ('clf', MultiOutputClassifier(RandomForestClassifier()))
-    ])
-    parameters = {'clf__estimator__n_estimators': [100,200],
-                  'clf__estimator__criterion': ['gini', 'entropy']}
-    cv = GridSearchCV(pipeline, parameters)
-    return cv   
+    sgd = Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
+                    ('tfidf', TfidfTransformer()),
+                    ('clf', MultiOutputClassifier(SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, random_state=42, max_iter=5, tol=None))),
+                   ])
+    parameters = {
+        'clf__estimator__penalty': ['l1', 'l2']}
+    cv = GridSearchCV(sgd, parameters)
+    return cv
 
 def evaluate_model(model, X_test, Y_test, category_names):
     y_pred = model.predict(X_test)
@@ -54,7 +54,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
     test_y = Y_test.reset_index(drop=True)
     for col in category_names:
         print(col)
-        print (classification_report(test_y[col], test_pred[col]))
+        print (classification_report(test_y[col], test_pred[col], zero_division=0))
     acc = (test_pred == test_y).mean().mean()
     print('Total Accuracy: {:.4f}'.format(acc))
 
@@ -66,15 +66,23 @@ def save_model(model, model_filepath):
 def main():
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
+        # database_filepath = '../data/DisasterResponse.db'
+        # model_filepath = 'classifier.pkl'
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
-        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.7)
+        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=10)
+        
+        # print(np.unique(Y))
+        # print((Y_train == 0).mean())
         
         print('Building model...')
         model = build_model()
         
         print('Training model...')
+        start = time.time()
         model.fit(X_train, Y_train)
+        end = time.time()
+        print(end - start)
         
         print('Evaluating model...')
         evaluate_model(model, X_test, Y_test, category_names)

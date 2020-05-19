@@ -3,6 +3,14 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+    '''
+    INPUT:
+    x - string to be cleaned '$*,*'
+    
+    OUTPUT:
+    x - if x is already cleaned and saved as a float
+    x_clean - x cleaned and saved as float
+    '''
     # load messages dataset
     messages = pd.read_csv(messages_filepath) 
     # load categories dataset
@@ -33,6 +41,8 @@ def clean_data(df):
     df.loc[df['related']==2, 'related'] = 1
     # drop duplicates
     df = df.drop_duplicates()
+    # remove column with no values
+    df = df.drop(columns=['child_alone'])
     return df
 
 def save_data(df, database_filepath):
