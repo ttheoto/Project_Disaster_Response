@@ -5,3 +5,6 @@ finalized_model.pkl
 disaster_response_pipeline_project/models/classifier.pkl
 .ipynb_checkpoints/Untitled-checkpoint.ipynb
 *.ipynb
+ETL Pipeline Preparation.ipynb
+DisasterResponse.db
+ML Pipeline Preparation.ipynb
