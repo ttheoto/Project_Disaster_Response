@@ -54,7 +54,7 @@ However, the exploration of the dataset revealed its imbalance. More than half o
 
 Even though the Machine Learning Model has a good accuracy (94.1%), its results are rather "naive". As we see in the figure below, more than half of the 35 categories have a zero f1 score - those are majoritarily the categories with less than 5% message representation.
 
-![f1score](f1score.png)
+![f1score](images/f1score.png)
 
 There is also indication of mislabeling. For instance, there were roughly 1300 messages where the word "water" is present, but it is not labeled as water-relevant. As a consequence, the model does not react well to new data. For instance, typing in a simple sentence such as "I need water" in the webapp does not return the expected output.
 
