@@ -1,3 +1,6 @@
+'''
+App Backend - run.py
+'''
 import json
 import plotly
 import pandas as pd
@@ -8,16 +11,22 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 
 from flask import Flask
-from flask import render_template, request, jsonify
+from flask import render_template, request
 from plotly.graph_objs import Bar
-import joblib
 from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
 
 def tokenize(text):
+    '''
+    INPUT:
+    text - str to be normalized, tokenized, have its stopwords removed, and
+            be lemmatized
     
+    OUTPUT:
+    tokens - list with processed tokens
+    '''
     # normalize and tokenize
     tokens = word_tokenize(text.lower())
     # remove stop words
@@ -44,7 +53,6 @@ model = pickle.load(open("../models/classifier.pkl", 'rb'))
 def index():
     
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     

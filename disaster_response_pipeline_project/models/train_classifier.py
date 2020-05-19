@@ -1,10 +1,12 @@
+'''
+NLP Pipeline - train_classifier.py
+'''
 # import libraries
 import sys
 import pandas as pd
 import nltk
 import pickle
 import time
-
 from sqlalchemy import create_engine
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -15,9 +17,21 @@ from sklearn.pipeline import Pipeline
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report
+
+
+# download nltk packages
 nltk.download(['punkt','stopwords','wordnet'])
 
 def load_data(database_filepath):
+    '''
+    INPUT:
+    database_filepath - str, path to the database to be loaded 
+    
+    OUTPUT:
+    X - pandas dataframe, features of the ML model
+    y - pandas dataframe, target of the ML model
+    category_names - list, name of each classification category
+    '''
     engine = create_engine('sqlite:///' + database_filepath)
     df = pd.read_sql('SELECT * FROM Messages', engine)
     X = df['message']
@@ -26,6 +40,14 @@ def load_data(database_filepath):
     return X, y, category_names
 
 def tokenize(text):
+    '''
+    INPUT:
+    text - str to be normalized, tokenized, have its stopwords removed, and
+            be lemmatized
+    
+    OUTPUT:
+    tokens - list with processed tokens
+    '''
     # normalize and tokenize
     tokens = word_tokenize(text.lower())
     # remove stop words
@@ -39,18 +61,41 @@ def tokenize(text):
     return tokens
 
 def build_model():
+    '''
+    OUTPUT:
+    cv - model with NLP pipeline, whose parameters were found through Grid
+        Search
+    '''
+    # parameters defined in order to reduce computational effort
+    # previous GridSearch runs in notebook were needed
     sgd = Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
                     ('tfidf', TfidfTransformer()),
-                    ('clf', MultiOutputClassifier(SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, random_state=42, max_iter=5, tol=None))),
-                   ])
-    parameters = {
-        'clf__estimator__penalty': ['l1', 'l2']}
+                    ('clf', MultiOutputClassifier(SGDClassifier(loss='hinge', 
+                                                                alpha=1e-3, 
+                                                                random_state=42, 
+                                                                max_iter=5, 
+                                                                tol=None)))])
+    # grid search for penalty
+    parameters = {'clf__estimator__penalty': ['l1', 'l2']}
+    # build model
     cv = GridSearchCV(sgd, parameters)
     return cv
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    '''
+    INPUT:
+    model - model to be evaluated
+    X_test - array containing test features
+    Y_test - array containing test targets
+    category_names - list, name of each classification category
+    
+    OUTPUT:
+    prints out the classification report for each category
+    '''
     y_pred = model.predict(X_test)
+    # change format of y_pred to return column names
     test_pred = pd.DataFrame(y_pred, columns= category_names)
+    # reset index of y_test to allow comparison
     test_y = Y_test.reset_index(drop=True)
     for col in category_names:
         print(col)
@@ -59,6 +104,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
     print('Total Accuracy: {:.4f}'.format(acc))
 
 def save_model(model, model_filepath):
+    '''
+    INPUT:
+    model - model to be pickled
+    model_filepath - str, path where model should be saved
+    
+    OUTPUT:
+    saved ML model in .pkl format
+    '''
     # save the model to disk
     pickle.dump(model, open(model_filepath, 'wb'))
 
@@ -66,14 +119,10 @@ def save_model(model, model_filepath):
 def main():
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
-        # database_filepath = '../data/DisasterResponse.db'
-        # model_filepath = 'classifier.pkl'
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
-        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=10)
-        
-        # print(np.unique(Y))
-        # print((Y_train == 0).mean())
+        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3,
+                                                            random_state=10)
         
         print('Building model...')
         model = build_model()
