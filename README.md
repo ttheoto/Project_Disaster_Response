@@ -43,27 +43,31 @@ The relevant data is found under the `disaster_response_pipeline_project` folder
 
 `models`
 
-    *`train_classifier.py` - NPL (Natural Language Processing) Pipeline. It loads the data from the database created by `process_data.py`, and builds, trains, evaluates and saves a SGDClassifier Machine Learning Model.  
+>`train_classifier.py` - NPL (Natural Language Processing) Pipeline. It loads the data from the database created by `process_data.py`, and builds, trains, evaluates and saves a SGDClassifier Machine Learning Model.  
 
 `app`
 
-    *`templates` - here you will find the HTML Templates of the web app, provided by Udacity.
+>`templates` - here you will find the HTML Templates of the web app, provided by Udacity.
     
-    *`run.py` - this file is the backend of our Flask-based webapp. It contains data visualizations, and uses the machine learning model pickled by `train_classifier.py` to predict categories of new data.
+>`run.py` - this file is the backend of our Flask-based webapp. It contains data visualizations, and uses the machine learning model pickled by `train_classifier.py` to predict categories of new data.
     
 ## Instructions <a name="instructions"></a>
 
-1. Run the following commands in the project's root directory to set up your database and model.
+After cloning this repository, open your terminal. Go to the project's `disaster_response_pipeline_project` directory and type in the following commands:  
 
-    - To run ETL pipeline that cleans data and stores in database
+1. First, run the ETL Pipeline `process_data.py`. It takes in three arguments: the two csv files' paths, and the desired database path.
+
         `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
-    - To run ML pipeline that trains classifier and saves
+
+2. Then, run the NLP Pipeline `train_classifier.py`. It takes two arguments: the path of the database to train/test on, and the desired pickle file path. This step might take some minutes, depending on your machine.
+
         `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
 
-2. Run the following command in the app's directory to run your web app. Use a virtual enviroment.
-    `python run.py`
+3. Run the following command in the app's directory to run your web app. I recommend using a virtual enviroment.
 
-3. Go to http://localhost:3001/ 
+        `python run.py`
+
+4. Open http://localhost:3001/ on your browser.
 
 4. Have fun!
 
