@@ -56,9 +56,12 @@ Even though the Machine Learning Model has a good accuracy (94.1%), its results 
 
 ![f1score](f1score.png)
 
-There is also indication of mislabeling. For instance, there were roughly 1300 messages where the word "water" is present, but it is not labeled as water-relevant. As a consequence, typing in a simple sentence such as "I need water" does not return the expected output in the webapp.
+There is also indication of mislabeling. For instance, there were roughly 1300 messages where the word "water" is present, but it is not labeled as water-relevant. As a consequence, the model does not react well to new data. For instance, typing in a simple sentence such as "I need water" in the webapp does not return the expected output.
+
+Some [approaches](https://towardsdatascience.com/handling-imbalanced-datasets-in-machine-learning-7a0e84220f28) could improve the model, such as over/undersampling, or relabeling/recollecting data. Hopefully, I will have time to dig into these solutions in the future.
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
-TBD
+Must give credit to Appen for the disaster datasets. You can find them [here](https://appen.com/datasets/combined-disaster-response-data/).
+
 
