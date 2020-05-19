@@ -12,7 +12,9 @@ This project consists of a disaster response web-app. It is part of the Udacity'
 
 ## Project Motivation<a name="motivation"></a>
 
-TBD
+The goal of the project is to build a model for an API that classifies disaster messages. It includes a web app where an emergency worker can input a new message and get classification results in several categories. 
+
+The motivation behind the project is to showcase my recently acquired software skills, including the ability to create basic data pipelines and write clean, organized code. 
 
 ## Installation <a name="installation"></a>
 
@@ -29,11 +31,25 @@ If running the web app (run.py file), a virtual environment is recommended. Plea
 
 ## File Descriptions <a name="files"></a>
 
-process_data.py - ETL Pipeline
-train_classifier.py - NPL Pipeline
-run.py - Flask Web App
+The relevant data is found under the `disaster_response_pipeline_project` folder. There are three sub-folders:
 
+`data` 
+
+    * `disaster_messages.csv` - Dataset containing roughly 26,000 messages drawn from events including an earthquake in Haiti in 2010, an earthquake in Chile in 2010, floods in Pakistan in 2010, super-storm Sandy in the U.S.A. in 2012, and news articles spanning a large number of years and 100s of different disasters. Messages are written in English and in their original language. Furthermore, the dataset includes the type of the messag ("genre"): direct, news or social.
+    * `disaster_categories.csv` - The previous data has been encoded with 36 different categories related to disaster response.
+    *`process_data.py`- ETL (Extract, Transform, Load) Pipeline. It combines the aforementioned files, cleansthe data and loads it into a Database file.
+
+`models`
+
+    *`train_classifier.py` - NPL (Natural Language Processing) Pipeline. It loads the data from the database created by `process_data.py`, and builds, trains, evaluates and saves a SGDClassifier Machine Learning Model.  
+
+`app`
+
+    *`templates` - here you will find the HTML Templates of the web app, provided by Udacity.
+    *`run.py` - this file is the backend of our Flask-based webapp. It contains data visualizations, and uses the machine learning model pickled by `train_classifier.py` to predict categories of new data.
+    
 ## Instructions <a name="instructions"></a>
+
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
@@ -46,6 +62,8 @@ run.py - Flask Web App
 
 3. Go to http://localhost:3001/ 
 
+4. Have fun!
+
 ## Results<a name="results"></a>
 
 In order to correctly classify the disaster-relevant messages, a SGD Classifier algorithm was used. Linear Support Vector Machine is widely regarded as one of the best text classification algorithms (see [here](https://towardsdatascience.com/multi-class-text-classification-model-comparison-and-selection-5eb0661975689)).
@@ -56,7 +74,7 @@ Even though the Machine Learning Model has a good accuracy (94.1%), its results 
 
 ![f1score](images/f1score.png)
 
-There is also indication of mislabeling. For instance, there were roughly 1300 messages where the word "water" is present, but it is not labeled as water-relevant. As a consequence, the model does not react well to new data. For instance, typing in a simple sentence such as "I need water" in the webapp does not return the expected output.
+There is also indication of mislabeling. For instance, there were roughly 1300 messages where the word "water" is present, but it is not labeled as water-relevant. As a consequence, the model may not react well to new data. For instance, typing in a simple sentence such as "I am thristy" in the webapp does not return the expected output.
 
 Some [approaches](https://towardsdatascience.com/handling-imbalanced-datasets-in-machine-learning-7a0e84220f28) could improve the model, such as over/undersampling, or relabeling/recollecting data. Hopefully, I will have time to dig into these solutions in the future.
 
