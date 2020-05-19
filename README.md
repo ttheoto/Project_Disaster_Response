@@ -47,7 +47,7 @@ run.py - Flask Web App
 3. Go to http://localhost:3001/ 
 
 ## Results<a name="results"></a>
-A Random Forest Classifier was selected due to the algorithm's (...)
+https://towardsdatascience.com/multi-class-text-classification-model-comparison-and-selection-5eb066197568
 
 The exploration of the dataset revealed its imbalance (change to chart with percentages). More than half of the categories have comparatively small (<5% of the messages) representation in the dataset. One category (child_alone) did not have any example sentence.
 So, even though the first Machine Learning Model had a good accuracy, its results were rather "naive". It could not assign simple sentences (e.g."I need water!") to the right category.   
