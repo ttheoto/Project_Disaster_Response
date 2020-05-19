@@ -47,14 +47,16 @@ run.py - Flask Web App
 3. Go to http://localhost:3001/ 
 
 ## Results<a name="results"></a>
-https://towardsdatascience.com/multi-class-text-classification-model-comparison-and-selection-5eb066197568
 
-The exploration of the dataset revealed its imbalance (change to chart with percentages). More than half of the categories have comparatively small (<5% of the messages) representation in the dataset. One category (child_alone) did not have any example sentence.
-So, even though the first Machine Learning Model had a good accuracy, its results were rather "naive". It could not assign simple sentences (e.g."I need water!") to the right category.   
+In order to correctly classify the disaster-relevant messages, a SGD Classifier algorithm was used. Linear Support Vector Machine is widely regarded as one of the best text classification algorithms (see [here](https://towardsdatascience.com/multi-class-text-classification-model-comparison-and-selection-5eb0661975689)).
 
-![Percentages](message_dist.png)
+However, the exploration of the dataset revealed its imbalance. More than half of the categories have comparatively small (<5% of the messages) representation in the dataset. One category (child_alone) did not have any example sentence, and was therefore removed.
 
-In order 
+Even though the Machine Learning Model has a good accuracy (94.1%), its results are rather "naive". As we see in the figure below, more than half of the 35 categories have a zero f1 score - those are majoritarily the categories with less than 5% message representation.
+
+![f1score](f1score.png)
+
+There is also indication of mislabeling. For instance, there were roughly 1300 messages where the word "water" is present, but it is not labeled as water-relevant. As a consequence, typing in a simple sentence such as "I need water" does not return the expected output in the webapp.
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
