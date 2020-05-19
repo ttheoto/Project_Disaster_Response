@@ -56,8 +56,7 @@ The relevant data is found under the `disaster_response_pipeline_project` folder
 After cloning this repository, open your terminal. Go to the project's `disaster_response_pipeline_project` directory and type in the following commands:  
 
 1. First, run the ETL Pipeline `process_data.py`. It takes in three arguments: the two csv files' paths, and the desired database path.
-
-        `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
+`python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
 
 2. Then, run the NLP Pipeline `train_classifier.py`. It takes two arguments: the path of the database to train/test on, and the desired pickle file path. This step might take some minutes, depending on your machine.
 
