@@ -52,12 +52,30 @@ model = pickle.load(open("../models/classifier.pkl", 'rb'))
 @app.route('/index')
 def index():
     
-    # extract data needed for visuals
+    # data for message genre chart
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    # data for category distribution
+    # which percentage of messages received a certain category?
+    perc_cat =(df.describe().drop(columns=['id']).loc['mean', :]
+               .sort_values(ascending=False))
+    cat_names = list(perc_cat.index)
+    cat_means = list(perc_cat.values*100)
+    
+    # data for selected words analysis: how were these messages categorized? 
+    # for instance, messages containing the word 'water'
+    # are they categorized as 'water' or not?
+    sel_names = ['water', 'food', 'fire']
+    with_cat = []
+    no_cat= []
+    for cat in sel_names:
+        with_cat.append(df[(df['message'].str.contains(cat) == True) 
+                           & (df[cat]==1)].shape[0])
+        no_cat.append(df[(df['message'].str.contains(cat) == True) 
+                           & (df[cat]==0)].shape[0])
+    
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
@@ -74,6 +92,53 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        },
+           
+        {
+            'data': [
+                Bar(
+                    x=cat_names,
+                    y=cat_means,
+                    marker_color='crimson'
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': 'Percentage'
+                },
+                'xaxis': {
+                    'title': 'Categories',
+                }
+            }
+        },
+        
+        {
+            'data': [
+                Bar(
+                    x=sel_names,
+                    y=with_cat,
+                    name='Contains both the word and the category'
+                ),
+                Bar(
+                    x=sel_names,
+                    y=no_cat,
+                    name = 'Contains the word, but not the category',
+                    marker_color = 'crimson'
+                )
+            ],
+
+            'layout': {
+                'barmode': 'stack',
+                'title': 'Comparing Word Instance and Categorization',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Categories"
                 }
             }
         }
